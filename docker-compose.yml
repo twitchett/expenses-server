@@ -1,0 +1,32 @@
+---
+version: "3.2"
+
+services:
+  app:
+    image: "node:8"
+    working_dir: /home/node/app
+    user: node
+    volumes:
+      - ./:/home/node/app
+      # - ${EXPORT_DIR}:/home/node/app/exports
+    environment:
+      DB_USER: "admin"
+      DB_PASSWORD: "password"
+      DB_NAME: "expenses"
+    expose:
+      - 3000
+    command: "npm start"
+
+  couchdb:
+    image: apache/couchdb:latest
+    environment:
+      DB_USER: "admin"
+      DB_PASSWORD: "password"
+      DB_NAME: "expenses"
+    expose:
+      - 5984
+    # ports:
+    #   - mode: host
+    #     target: 5984
+    #     published: 5984
+    #     protocol: tcp
